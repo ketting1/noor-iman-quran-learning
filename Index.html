@@ -1,1 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Noor & Iman - Interactive Quran learning platform for Year 3 and above. Arabic alphabet, short surahs, Tajweed, multilingual support (English, Wolof, French, Arabic).">
+  <meta name="theme-color" content="#2b5e3b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Noor & Iman">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%232b5e3b'/%3E%3Ctext x='50' y='70' font-size='50' text-anchor='middle' fill='white' font-family='Arial'%3Eن%3C/text%3E%3C/svg%3E">
+  <title>Noor & Iman – Learn Quran with Light & Faith</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: #fefaf5; color: #1e2a2e; scroll-behavior: smooth; }
+    .bg-pattern { background-image: radial-gradient(#e9dbc3 1.2px, transparent 1.2px); background-size: 24px 24px; }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+    header { background: #ffffffdd; backdrop-filter: blur(12px); box-shadow: 0 4px 20px rgba(0,0,0,0.02); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #f0e2cf; }
+    .navbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; padding: 16px 0; gap: 16px; }
+    .logo h1 { font-size: 1.7rem; font-weight: 800; background: linear-gradient(135deg, #2b5e3b, #c2a15b); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .logo span { font-size: 0.8rem; color: #7f5e2e; display: block; }
+    .nav-links { display: flex; gap: 28px; flex-wrap: wrap; align-items: center; }
+    .nav-links a { text-decoration: none; font-weight: 600; color: #3a2c1b; transition: 0.2s; }
+    .nav-links a:hover { color: #2b5e3b; border-bottom: 2px solid #c2a15b; }
+    .lang-selector { background: #f3ede4; border: 1px solid #dac29c; border-radius: 40px; padding: 6px 14px; font-weight: 600; font-family: inherit; cursor: pointer; }
+    .btn-primary { background: #2b5e3b; color: white; border: none; padding: 12px 28px; border-radius: 40px; font-weight: 600; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
+    .btn-primary:hover { background: #1f452c; transform: translateY(-2px); }
+    .btn-outline { background: transparent; border: 2px solid #2b5e3b; padding: 8px 20px; border-radius: 40px; font-weight: 600; color: #2b5e3b; cursor: pointer; }
+    section { padding: 64px 0; }
+    .section-title { font-size: 2.2rem; font-weight: 800; text-align: center; margin-bottom: 48px; color: #2c4b32; position: relative; }
+    .section-title:after { content: "✧"; display: block; font-size: 1.8rem; color: #c2a15b; margin-top: 6px; }
+    .age-grid { display: flex; flex-wrap: wrap; gap: 28px; justify-content: center; }
+    .age-card { background: white; border-radius: 32px; padding: 28px 20px; flex: 1; min-width: 220px; text-align: center; box-shadow: 0 12px 24px rgba(0,0,0,0.05); border: 1px solid #f7e9da; }
+    .age-card i { font-size: 2.8rem; color: #2b5e3b; margin-bottom: 16px; }
+    .alphabet-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 120px)); gap: 20px; justify-content: center; margin-top: 20px; }
+    .letter-card { background: white; border-radius: 28px; padding: 20px 8px; text-align: center; box-shadow: 0 8px 14px rgba(0,0,0,0.05); cursor: pointer; transition: 0.2s; border: 1px solid #ffe6cf; }
+    .letter-card:hover { transform: scale(1.02); background: #fff9f0; }
+    .arabic-letter { font-size: 2.7rem; font-weight: 600; font-family: 'Segoe UI', 'Amiri', 'Noto Sans Arabic', serif; margin-bottom: 8px; color: #2b3b2c; }
+    .translit { font-size: 0.9rem; font-weight: 500; color: #7f5e2e; }
+    .surah-grid { display: flex; flex-wrap: wrap; gap: 24px; justify-content: center; }
+    .surah-card { background: white; border-radius: 32px; padding: 20px; width: 280px; box-shadow: 0 12px 24px rgba(0,0,0,0.05); position: relative; }
+    .surah-name { font-size: 1.6rem; font-weight: 800; color: #2b5e3b; }
+    .surah-arabic { font-size: 2rem; font-family: 'Amiri', 'Noto Sans Arabic', serif; margin: 12px 0; direction: rtl; }
+    .audio-link { margin-top: 12px; display: inline-block; background: #eef4e8; padding: 6px 12px; border-radius: 40px; font-size: 0.75rem; color: #2b5e3b; text-decoration: none; }
+    .tajweed-box { background: #eef4e8; border-radius: 32px; padding: 28px; }
+    .rule-item { margin: 14px 0; padding-left: 20px; border-left: 4px solid #c2a15b; }
+    .quiz-container { background: white; border-radius: 32px; padding: 28px; box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
+    .question { font-weight: 700; font-size: 1.3rem; margin-bottom: 20px; }
+    .option { display: block; margin: 12px 0; background: #fef7ed; padding: 12px 18px; border-radius: 60px; cursor: pointer; transition: 0.1s; }
+    .option.selected { background: #c2a15b40; border: 1px solid #c2a15b; }
+    footer { background: #1f2c21; color: #cfdec7; padding: 40px 0; text-align: center; }
+    @media (max-width: 780px) { .navbar { flex-direction: column; } .section-title { font-size: 1.8rem; } }
+    .install-banner { display: none; background: #2b5e3b; color: white; text-align: center; padding: 10px; cursor: pointer; }
+  </style>
+</head>
+<body class="bg-pattern">
+<div id="installBanner" class="install-banner" style="display: none;">📱 Install App: Add Noor & Iman to your home screen ➕</div>
+<header>
+  <div class="container">
+    <div class="navbar">
+      <div class="logo"><h1>نور & Iman <i class="fas fa-star-of-life" style="color:#c2a15b;"></i></h1><span data-i18n="logo_sub">Quran Learning & Teaching · Year 3+</span></div>
+      <div class="nav-links">
+        <a href="#age-paths" data-i18n="nav_paths">Paths</a>
+        <a href="#alphabet" data-i18n="nav_alphabet">Alphabet</a>
+        <a href="#surahs" data-i18n="nav_surahs">Surahs</a>
+        <a href="#tajweed" data-i18n="nav_tajweed">Tajweed</a>
+        <a href="#quiz" data-i18n="nav_quiz">Quiz</a>
+        <select id="languageSwitcher" class="lang-selector">
+          <option value="en">🇬🇧 English</option><option value="wo">🇸🇳 Wolof</option><option value="fr">🇫🇷 Français</option><option value="ar">🇸🇦 العربية</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</header>
+<main>
+  <section style="padding-top: 40px;"><div class="container"><div style="text-align: center; max-width: 800px; margin: 0 auto;">
+    <h2 style="font-size: 2.8rem; font-weight: 800; color: #2c4b32;" data-i18n="hero_title">Learn & Teach the Quran with Love & Wisdom</h2>
+    <p style="font-size: 1.2rem; margin: 24px 0; color: #4e5e54;" data-i18n="hero_desc">Designed for children from Year 3 and above, teens, and adults. Explore Arabic alphabet, short surahs, Tajweed basics, and interactive quizzes.</p>
+    <button class="btn-primary" onclick="document.getElementById('alphabet').scrollIntoView({behavior:'smooth'})"><i class="fas fa-play"></i> <span data-i18n="start_btn">Start Learning</span></button>
+  </div></div></section>
 
+  <section id="age-paths"><div class="container"><div class="section-title" data-i18n="age_title">🌟 Learning for Every Stage (Year 3+)</div><div class="age-grid" id="ageGrid"></div></div></section>
+  <section id="alphabet"><div class="container"><div class="section-title" data-i18n="alphabet_title">📖 Learn Arabic Alphabet</div><p style="text-align: center; margin-bottom: 24px;" data-i18n="alphabet_desc">Tap any letter to hear pronunciation — perfect for young learners and beginners</p><div class="alphabet-grid" id="alphabetGrid"></div><div style="text-align: center; margin-top: 20px;"><small><i class="fas fa-volume-up"></i> <span data-i18n="alphabet_hint">Click any letter, your browser will speak the letter name</span></small></div></div></section>
+  <section id="surahs"><div class="container"><div class="section-title" data-i18n="surahs_title">✨ Short Surahs to Learn & Teach</div><div class="surah-grid" id="surahGrid"></div><div style="margin-top: 28px; text-align: center;" data-i18n="surahs_note"><i class="fas fa-head-side-cough"></i> Click the "Listen" link to hear recitation on Quran.com</div></div></section>
+  <section id="tajweed"><div class="container"><div class="section-title" data-i18n="tajweed_title">📘 Tajweed Essentials (For ages 8+)</div><div id="tajweedBox"></div></div></section>
+  <section id="quiz"><div class="container"><div class="section-title" data-i18n="quiz_title">🧠 Quran Knowledge Challenge</div><div class="quiz-container" id="quizContainer"></div></div></section>
+  <section style="background: #f9f2e6; border-radius: 48px; margin: 0 0 40px 0;"><div class="container" style="padding: 32px 0;"><div style="text-align: center;">
+    <i class="fas fa-hand-sparkles" style="font-size: 2.5rem; color:#c2a15b;"></i>
+    <h3 style="margin: 12px 0;" data-i18n="hadith">“The best among you are those who learn the Quran and teach it.” (Bukhari)</h3>
+    <p style="margin-top: 12px;" data-i18n="footer_encourage">Use our interactive tools to empower young hearts. For year 3+, start with Alphabet and short surahs.</p>
+  </div></div></section>
+</main>
+<footer><div class="container"><p data-i18n="footer_line1"><i class="fas fa-mosque"></i> Noor & Iman — Quran learning for all ages, Year 3 and beyond.</p><p style="margin-top: 12px; font-size: 0.85rem;" data-i18n="footer_line2">📚 Interactive lessons | Alphabet with sound | Tajweed basics | Quiz & Teaching resources</p><p style="margin-top: 16px;" data-i18n="footer_line3">🌸 Made with barakah — inspire the next generation 🌸</p></div></footer>
+
+<script>
+  // ------------------------ MULTILINGUAL DATA (EN, WO, FR, AR) ------------------------
+  const translations = {
+    en: {
+      logo_sub: "Quran Learning & Teaching · Year 3+", nav_paths: "Paths", nav_alphabet: "Alphabet", nav_surahs: "Surahs", nav_tajweed: "Tajweed", nav_quiz: "Quiz",
+      hero_title: "Learn & Teach the Quran with Love & Wisdom", hero_desc: "Designed for children from Year 3 and above, teens, and adults. Explore Arabic alphabet, short surahs, Tajweed basics, and interactive quizzes.",
+      start_btn: "Start Learning", age_title: "🌟 Learning for Every Stage (Year 3+)", alphabet_title: "📖 Learn Arabic Alphabet (click to listen)", alphabet_desc: "Tap any letter to hear pronunciation", alphabet_hint: "Click any letter, your browser will speak the letter name",
+      surahs_title: "✨ Short Surahs to Learn & Teach", surahs_note: "Click the 'Listen' link to hear recitation on Quran.com", tajweed_title: "📘 Tajweed Essentials (For ages 8+)", quiz_title: "🧠 Quran Knowledge Challenge",
+      hadith: "“The best among you are those who learn the Quran and teach it.” (Bukhari)", footer_encourage: "Use our interactive tools to empower young hearts. For year 3+, start with Alphabet and short surahs.",
+      footer_line1: "Noor & Iman — Quran learning for all ages, Year 3 and beyond.", footer_line2: "📚 Interactive lessons | Alphabet with sound | Tajweed basics | Quiz & Teaching resources", footer_line3: "🌸 Made with barakah — inspire the next generation 🌸",
+      listen: "listen", teaching_point: "Teaching point", audio_listen: "Listen on Quran.com",
+      ageCards: [
+        { title: "Years 3-4", text: "Arabic letter recognition, simple duas, short surahs. Fun games.", icon: "fa-child" },
+        { title: "Years 5-8", text: "Tajweed basics, memorization of Juz 'Amma, meaning & reflection.", icon: "fa-users" },
+        { title: "Teens & Adults", text: "Tajweed rules deep dive, tafsir, recitation improvement.", icon: "fa-book-quran" },
+        { title: "Teachers Corner", text: "Lesson plans, interactive tools, progress tips.", icon: "fa-chalkboard-user" }
+      ],
+      tajweedRules: ["⚫ Noon Sakinah & Tanween – Izhar, Idgham, Iqlab, Ikhfa. Learn the four rules.", "🔴 Meem Sakinah – Ikhfa Shafawi, Idgham Shafawi, Izhar Shafawi.", "🟢 Qalqalah – Bouncing letters (ق ط ب ج د) when they have sukoon.", "📌 Teaching Tip – Use colors and hand gestures: red for ghunnah, green for qalqalah."],
+      quizQuestions: [{ text: "How many surahs are in the Holy Quran?", options: ["99","114","100","125"], correct:1 },{ text: "Which is the first surah in the Quran?", options: ["Al-Baqarah","An-Nas","Al-Fatiha","Al-Ikhlas"], correct:2 },{ text: "What is the language of the Quran?", options: ["Urdu","English","Arabic","Persian"], correct:2 }],
+      quiz: { prev:"Previous", next:"Next", finish:"Finish Quiz", completed:"Quiz completed! 🎉", score:"Your score:", review:"Review answers and try again!", restart:"Restart Quiz", feedbackEmpty:"⚠️ Please select an answer." }
+    },
+    wo: {
+      logo_sub: "Jangal Quran & Yombal · Atu 3 ba kawe", nav_paths: "Bërëb", nav_alphabet: "Alif-baa", nav_surahs: "Sura yi", nav_tajweed: "Tajweed", nav_quiz: "Ƴàq",
+      hero_title: "Jangal ak Yombal Qur'aana ci Mbóttel ak Xam-xam", hero_desc: "Maɲ naa ngir xale yu fukk at 3 ba kawe, ay dëkk ak njaboot. Xam alif-baa, sura yu tuuti, Tajweed, ak ay ƴàq.",
+      start_btn: "Tàggal Jangal", age_title: "🌟 Jangal bu nekk ci tàkk yu bari (At 3+)", alphabet_title: "📖 Xamal Alif-baa", alphabet_desc: "Tàqalala xarala bi ngir tegg ajiinu", alphabet_hint: "Tàqalala xarala bi, jëfandikoo baatukaay bu waxtaan bi.",
+      surahs_title: "✨ Sura yu tuuti ngir jangal ak yombal", surahs_note: "Tàqal li 'Waxtaan' ngir tegg ajiinu ci Quran.com", tajweed_title: "📘 Lu bari ci Tajweed", quiz_title: "🧠 Mbóttel gëst ci Qur'aana",
+      hadith: "“Moo baax ci ñeent mooy jangal Qur'aana te yombal.”", footer_encourage: "Jëfandikoo ay nosukaay yi ngir mbokkale xol yu ndaw.", footer_line1: "Noor & Iman — Jangal Qur'aana ngir at yu bari", footer_line2: "📚 Jàngale yu ci yaatu | Alif-baa | Tajweed | Quiz", footer_line3: "🌸 Soppaliku barakah — njàngale weer bi ñuy am 🌸",
+      listen: "waxtaan", teaching_point: "Ndar gi", audio_listen: "Waxtaan ci Quran.com",
+      ageCards: [{ title:"At 3-4", text:"Xamal xarala alif-baa, gaawu, sura yu tuuti.", icon:"fa-child"},{ title:"At 5-8", text:"Tajweed jëmb, jàngale Juz 'Amma.", icon:"fa-users"},{ title:"Dëkk ak Njaboot", text:"Tajweed gënna ci gàncax, tafsir.", icon:"fa-book-quran"},{ title:"Jàngalekat yi", text:"Jëfandikoo ay nosukaay, ay tàggat.", icon:"fa-chalkboard-user"}],
+      tajweedRules: ["⚫ Noon Sakinah ak Tanween – Izhar, Idgham, Iqlab, Ikhfa.","🔴 Meem Sakinah – Ikhfa Shafawi, Idgham Shafawi, Izhar Shafawi.","🟢 Qalqalah – Xarala yi day bagg (ق ط ب ج د).","📌 Ndar gi – Jëfandikoo melo ak ker: cer ngir ghunnah, werwet ngir qalqalah."],
+      quizQuestions: [{ text:"Suura yooñ ci Qur'aana jii ñetti fukki ak ñeent (114) ?", options:["99","114","100","125"], correct:1},{ text:"Suura bu njëkk ci Qur'aana?", options:["Al-Baqarah","An-Nas","Al-Fatiha","Al-Ikhlas"], correct:2},{ text:"Lànk gu Qur'aana?", options:["Urdu","English","Arabic","Persian"], correct:2}],
+      quiz: { prev:"Fanaan", next:"Ŋaaw", finish:"Fanaan Ƴàq bi", completed:"Ƴàq bi nu xam! 🎉", score:"Sàrt bi:", review:"Waxtaan ba takk ay jawaab!", restart:"Tàmbalee tànni", feedbackEmpty:"⚠️ Jox sa jawaab." }
+    },
+    fr: {
+      logo_sub: "Apprentissage du Coran · Dès 8 ans+", nav_paths: "Parcours", nav_alphabet: "Alphabet", nav_surahs: "Sourates", nav_tajweed: "Tajwid", nav_quiz: "Quiz",
+      hero_title: "Apprenez et enseignez le Coran avec Amour et Sagesse", hero_desc: "Conçu pour les enfants à partir de 8 ans, adolescents et adultes. Alphabet arabe, petites sourates, règles de Tajwid et quiz interactifs.",
+      start_btn: "Commencer", age_title: "🌟 Apprentissage par âge (dès 8 ans)", alphabet_title: "📖 Apprendre l'alphabet arabe", alphabet_desc: "Cliquez sur une lettre pour écouter la prononciation", alphabet_hint: "Cliquez sur la lettre, le navigateur la prononce.",
+      surahs_title: "✨ Petites Sourates à apprendre", surahs_note: "Cliquez sur 'Écouter' pour la récitation sur Quran.com", tajweed_title: "📘 Règles de Tajwid essentielles", quiz_title: "🧠 Quiz sur le Coran",
+      hadith: "« Les meilleurs d'entre vous sont ceux qui apprennent le Coran et l'enseignent. » (Boukhari)", footer_encourage: "Utilisez nos outils interactifs pour former les jeunes cœurs.",
+      footer_line1: "Noor & Iman — Coran pour tous, dès 8 ans.", footer_line2: "📚 Leçons interactives | Alphabet sonore | Tajwid | Quiz", footer_line3: "🌸 Béni soit celui qui apprend et enseigne 🌸",
+      listen: "écouter", teaching_point: "Point pédagogique", audio_listen: "Écouter sur Quran.com",
+      ageCards: [{ title:"8-10 ans", text:"Reconnaissance des lettres, invocations simples.", icon:"fa-child"},{ title:"11-14 ans", text:"Tajwid, mémorisation de Juz 'Amma.", icon:"fa-users"},{ title:"Ados & Adultes", text:"Tajwid avancé, tafsir, amélioration de la récitation.", icon:"fa-book-quran"},{ title:"Enseignants", text:"Plans de cours, astuces interactives.", icon:"fa-chalkboard-user"}],
+      tajweedRules: ["⚫ Noon Sakinah & Tanween – Izhar, Idgham, Iqlab, Ikhfa.","🔴 Meem Sakinah – Ikhfa Shafawi, Idgham Shafawi, Izhar Shafawi.","🟢 Qalqalah – Lettres qui rebondissent (ق ط ب ج د).","📌 Astuce – Utilisez des couleurs et gestes."],
+      quizQuestions: [{ text:"Combien de sourates dans le Coran ?", options:["99","114","100","125"], correct:1},{ text:"Quelle est la première sourate ?", options:["Al-Baqarah","An-Nas","Al-Fatiha","Al-Ikhlas"], correct:2},{ text:"Langue du Coran ?", options:["Urdu","Anglais","Arabe","Persan"], correct:2}],
+      quiz: { prev:"Précédent", next:"Suivant", finish:"Terminer", completed:"Quiz terminé ! 🎉", score:"Votre score :", review:"Revoyez vos réponses.", restart:"Recommencer", feedbackEmpty:"⚠️ Veuillez sélectionner une réponse." }
+    },
+    ar: {
+      logo_sub: "تعليم القرآن وتعلمه · من الصف الثالث فما فوق", nav_paths: "المسارات", nav_alphabet: "الحروف", nav_surahs: "السور", nav_tajweed: "التجويد", nav_quiz: "اختبار",
+      hero_title: "تعلم وعلم القرآن بالحب والحكمة", hero_desc: "مصمم للأطفال من سن 8 سنوات فما فوق، والمراهقين والبالغين. استكشف الحروف العربية، السور القصيرة، قواعد التجويد، والاختبارات التفاعلية.",
+      start_btn: "ابدأ التعلم", age_title: "🌟 التعلم لكل مرحلة (من 8 سنوات+)", alphabet_title: "📖 تعلم الحروف العربية", alphabet_desc: "اضغط على أي حرف لسماع النطق", alphabet_hint: "انقر على الحرف، سينطقه المتصفح.",
+      surahs_title: "✨ سور قصيرة للتعلم والتعليم", surahs_note: "انقر على 'استمع' لسماع التلاوة على Quran.com", tajweed_title: "📘 أساسيات التجويد (من 8 سنوات+)", quiz_title: "🧠 تحدي معرفة القرآن",
+      hadith: "خيركم من تعلم القرآن وعلمه (رواه البخاري)", footer_encourage: "استخدم أدواتنا التفاعلية لتمكين القلوب الصغيرة.",
+      footer_line1: "نور وإيمان — تعليم القرآن لجميع الأعمار، من 8 سنوات فما فوق", footer_line2: "📚 دروس تفاعلية | الحروف بالصوت | تجويد | اختبارات", footer_line3: "🌸 عمل مبارك — ألهم الجيل القادم 🌸",
+      listen: "استمع", teaching_point: "نقطة تعليمية", audio_listen: "استمع على Quran.com",
+      ageCards: [{ title:"سنوات 3-4", text:"تعرف على الحروف، أدعية بسيطة، سور قصيرة.", icon:"fa-child"},{ title:"سنوات 5-8", text:"أساسيات التجويد، حفظ جزء عم.", icon:"fa-users"},{ title:"مراهقون وكبار", text:"قواعد التجويد المتقدمة، تفسير.", icon:"fa-book-quran"},{ title:"ركن المعلم", text:"خطط الدروس، أدوات تفاعلية.", icon:"fa-chalkboard-user"}],
+      tajweedRules: ["⚫ النون الساكنة والتنوين – الإظهار والإدغام والإقلاب والإخفاء","🔴 الميم الساكنة – الإخفاء الشفوي والإدغام الشفوي والإظهار الشفوي","🟢 القلقلة – الحروف (ق ط ب ج د) عند السكون","📌 نصيحة – استخدم الألوان والإشارات: الأحمر للغنة، الأخضر للقلقلة"],
+      quizQuestions: [{ text:"كم سورة في القرآن الكريم؟", options:["99","114","100","125"], correct:1},{ text:"ما أول سورة في القرآن؟", options:["البقرة","الناس","الفاتحة","الإخلاص"], correct:2},{ text:"ما لغة القرآن؟", options:["الأردية","الإنجليزية","العربية","الفارسية"], correct:2}],
+      quiz: { prev:"السابق", next:"التالي", finish:"إنهاء", completed:"اكتمل الاختبار! 🎉", score:"نتيجتك:", review:"راجع إجاباتك وحاول مرة أخرى", restart:"إعادة الاختبار", feedbackEmpty:"⚠️ الرجاء اختيار إجابة قبل المتابعة." }
+    }
+  };
+
+  let currentLang = 'en';
+  const arabicLetters = [
+    { letter: "ا", name: "Alif", pron: "Alif" }, { letter: "ب", name: "Ba", pron: "Ba" }, { letter: "ت", name: "Ta", pron: "Ta" },
+    { letter: "ث", name: "Tha", pron: "Tha" }, { letter: "ج", name: "Jeem", pron: "Jeem" }, { letter: "ح", name: "Ha", pron: "Ha" },
+    { letter: "خ", name: "Kha", pron: "Kha" }, { letter: "د", name: "Dal", pron: "Dal" }, { letter: "ذ", name: "Dhal", pron: "Dhal" },
+    { letter: "ر", name: "Ra", pron: "Ra" }, { letter: "ز", name: "Zay", pron: "Zay" }, { letter: "س", name: "Seen", pron: "Seen" },
+    { letter: "ش", name: "Sheen", pron: "Sheen" }, { letter: "ص", name: "Sad", pron: "Sad" }, { letter: "ض", name: "Dad", pron: "Dad" },
+    { letter: "ط", name: "Taa", pron: "Taa" }, { letter: "ظ", name: "Zah", pron: "Zah" }, { letter: "ع", name: "Ayn", pron: "Ayn" },
+    { letter: "غ", name: "Ghayn", pron: "Ghayn" }, { letter: "ف", name: "Fa", pron: "Fa" }, { letter: "ق", name: "Qaf", pron: "Qaf" },
+    { letter: "ك", name: "Kaf", pron: "Kaf" }, { letter: "ل", name: "Lam", pron: "Lam" }, { letter: "م", name: "Meem", pron: "Meem" },
+    { letter: "ن", name: "Noon", pron: "Noon" }, { letter: "ه", name: "Ha", pron: "Ha" }, { letter: "و", name: "Waw", pron: "Waw" }, { letter: "ي", name: "Ya", pron: "Ya" }
+  ];
+  const surahsData = [
+    { name: "Al-Fatiha", arabic: "ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ", translationEn: "All praise is due to Allah, Lord of the worlds.", meaningKeyEn: "The Opening", slug:"al-fatiha" },
+    { name: "Al-Ikhlas", arabic: "قُلْ هُوَ ٱللَّهُ أَحَدٌ", translationEn: "Say, He is Allah, the One.", meaningKeyEn: "Oneness of Allah", slug:"al-ikhlas" },
+    { name: "Al-Falaq", arabic: "قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ", translationEn: "Say, I seek refuge in the Lord of daybreak.", meaningKeyEn: "Seeking protection", slug:"al-falaq" },
+    { name: "An-Nas", arabic: "قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ", translationEn: "Say, I seek refuge in the Lord of mankind.", meaningKeyEn: "Protection from evil", slug:"an-nas" },
+    { name: "Al-Asr", arabic: "وَٱلْعَصْرِ", translationEn: "By time, indeed mankind is in loss.", meaningKeyEn: "Value of time", slug:"al-asr" }
+  ];
+
+  function renderAgeCards() { const container = document.getElementById('ageGrid'); if(!container) return; const cards = translations[currentLang].ageCards; container.innerHTML = cards.map(c => `<div class="age-card"><i class="fas ${c.icon}"></i><h3>${c.title}</h3><p>${c.text}</p></div>`).join(''); }
+  function renderTajweed() { const box = document.getElementById('tajweedBox'); if(!box) return; box.innerHTML = `<div class="tajweed-box">${translations[currentLang].tajweedRules.map(r => `<div class="rule-item">${r}</div>`).join('')}</div>`; }
+  function renderAlphabet() { const grid = document.getElementById('alphabetGrid'); if(!grid) return; const listenText = translations[currentLang].listen; grid.innerHTML = ''; arabicLetters.forEach(l => { const card = document.createElement('div'); card.className = 'letter-card'; card.innerHTML = `<div class="arabic-letter">${l.letter}</div><div class="translit">${l.name}</div><div class="speak-icon"><i class="fas fa-headphones-alt"></i> ${listenText}</div>`; card.addEventListener('click',()=>{ if('speechSynthesis' in window){ speechSynthesis.cancel(); const utterance = new SpeechSynthesisUtterance(l.pron); utterance.lang='en-US'; utterance.rate=0.9; speechSynthesis.speak(utterance); } else alert("Speech not supported"); }); grid.appendChild(card); }); }
+  function renderSurahs() { const container = document.getElementById('surahGrid'); if(!container) return; const teachLabel = translations[currentLang].teaching_point; const audioLabel = translations[currentLang].audio_listen; container.innerHTML = ''; surahsData.forEach(s => { const translation = currentLang === 'fr' ? `✨ ${s.translationEn}` : (currentLang === 'wo' ? `✨ ${s.translationEn}` : `✨ ${s.translationEn}`); container.innerHTML += `<div class="surah-card"><div class="surah-name">${s.name}</div><div class="surah-arabic" dir="rtl">${s.arabic}</div><div class="translation">${translation}</div><div style="margin-top:12px;"><a href="https://quran.com/${s.slug}" target="_blank" class="audio-link"><i class="fas fa-headphones"></i> ${audioLabel}</a></div><div style="font-size:0.75rem; margin-top:8px;"><i class="fas fa-chalkboard"></i> ${teachLabel}: ${s.meaningKeyEn}</div></div>`; }); }
+  
+  // Quiz logic
+  let currentQuizIndex = 0, userAnswers = [-1,-1,-1];
+  function renderQuiz() {
+    const container = document.getElementById('quizContainer'); if(!container) return;
+    const qData = translations[currentLang].quizQuestions; const t = translations[currentLang].quiz;
+    if(currentQuizIndex >= qData.length) { let score = userAnswers.reduce((acc,ans,i)=> ans===qData[i].correct ? acc+1:acc,0); container.innerHTML = `<div style="text-align:center;"><i class="fas fa-trophy" style="font-size:3rem;color:#c2a15b;"></i><h3>${t.completed}</h3><p style="font-size:1.4rem;">${t.score} ${score}/${qData.length}</p><p>${t.review}</p><button class="btn-primary" id="restartQuizBtn">${t.restart}</button></div>`; document.getElementById('restartQuizBtn')?.addEventListener('click',()=>{ userAnswers=[-1,-1,-1]; currentQuizIndex=0; renderQuiz(); }); return; }
+    const q = qData[currentQuizIndex]; const selected = userAnswers[currentQuizIndex]; let optsHtml = ''; q.options.forEach((opt,idx)=>{ optsHtml += `<div class="option ${selected===idx?'selected':''}" data-opt="${idx}">${String.fromCharCode(65+idx)}. ${opt}</div>`; });
+    container.innerHTML = `<div class="question">${currentQuizIndex+1}. ${q.text}</div><div id="quizOptions">${optsHtml}</div><div style="display:flex;justify-content:space-between;margin-top:32px;"><button class="btn-outline" id="prevQuizBtn" ${currentQuizIndex===0?'disabled style="opacity:0.5"':''}>${t.prev}</button><button class="btn-primary" id="nextQuizBtn">${currentQuizIndex===qData.length-1?t.finish:t.next}</button></div><div id="quizFeedbackMsg"></div>`;
+    document.querySelectorAll('#quizOptions .option').forEach(opt=>{ opt.addEventListener('click',(e)=>{ const idx=parseInt(opt.dataset.opt); userAnswers[currentQuizIndex]=idx; renderQuiz(); }); });
+    document.getElementById('nextQuizBtn')?.addEventListener('click',()=>{ if(userAnswers[currentQuizIndex]===-1){ document.getElementById('quizFeedbackMsg').innerHTML=`<span style="color:#c27803;">${t.feedbackEmpty}</span>`; return; } if(currentQuizIndex===qData.length-1){ currentQuizIndex=qData.length; renderQuiz(); } else { currentQuizIndex++; renderQuiz(); } });
+    document.getElementById('prevQuizBtn')?.addEventListener('click',()=>{ if(currentQuizIndex>0){ currentQuizIndex--; renderQuiz(); } });
+  }
+  function updateStaticTexts(){ document.querySelectorAll('[data-i18n]').forEach(el=>{ const key=el.getAttribute('data-i18n'); if(translations[currentLang][key]) el.innerText=translations[currentLang][key]; }); }
+  function refreshAll(){ updateStaticTexts(); renderAgeCards(); renderTajweed(); renderAlphabet(); renderSurahs(); currentQuizIndex=0; userAnswers=[-1,-1,-1]; renderQuiz(); }
+  document.getElementById('languageSwitcher').addEventListener('change',(e)=>{ currentLang=e.target.value; refreshAll(); });
+  refreshAll();
+
+  // ---------- PWA: Manifest + Service Worker Registration ----------
+  const manifestJSON = {
+    name: "Noor & Iman - Quran Learning", short_name: "NoorIman", start_url: ".", display: "standalone", theme_color: "#2b5e3b", background_color: "#fefaf5",
+    icons: [{ src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%232b5e3b'/%3E%3Ctext x='50' y='70' font-size='50' text-anchor='middle' fill='white' font-family='Arial'%3Eن%3C/text%3E%3C/svg%3E", sizes: "any", type: "image/svg+xml" }]
+  };
+  if(!document.querySelector('#dynamic-manifest')){ const linkManifest = document.createElement('link'); linkManifest.rel='manifest'; linkManifest.href='data:application/manifest+json,'+encodeURIComponent(JSON.stringify(manifestJSON)); document.head.appendChild(linkManifest); }
+  if('serviceWorker' in navigator){ navigator.serviceWorker.register('/sw.js').catch(()=>{}); }
+  // simple service worker content generation (inline)
+  const swCode = `self.addEventListener('install', e=>self.skipWaiting()); self.addEventListener('fetch', e=>e.respondWith(fetch(e.request).catch(()=>caches.match(e.request))));`;
+  if(!window.swBlob){ const blob = new Blob([swCode], {type:'application/javascript'}); const url = URL.createObjectURL(blob); navigator.serviceWorker.register(url).catch(e=>console.log("SW not critical")); }
+  let deferredPrompt; window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; document.getElementById('installBanner').style.display = 'block'; document.getElementById('installBanner').onclick = () => { deferredPrompt.prompt(); deferredPrompt.userChoice.then(()=>{ document.getElementById('installBanner').style.display='none'; }); }; });
+</script>
+</body>
+</html>
