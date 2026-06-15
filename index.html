@@ -207,8 +207,4 @@
   if('serviceWorker' in navigator){ navigator.serviceWorker.register('/sw.js').catch(()=>{}); }
   // simple service worker content generation (inline)
   const swCode = `self.addEventListener('install', e=>self.skipWaiting()); self.addEventListener('fetch', e=>e.respondWith(fetch(e.request).catch(()=>caches.match(e.request))));`;
-  if(!window.swBlob){ const blob = new Blob([swCode], {type:'application/javascript'}); const url = URL.createObjectURL(blob); navigator.serviceWorker.register(url).catch(e=>console.log("SW not critical")); }
-  let deferredPrompt; window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; document.getElementById('installBanner').style.display = 'block'; document.getElementById('installBanner').onclick = () => { deferredPrompt.prompt(); deferredPrompt.userChoice.then(()=>{ document.getElementById('installBanner').style.display='none'; }); }; });
-</script>
-</body>
-</html>
+  if(!window.swBlob){ const blob 
