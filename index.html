@@ -1,1 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Noor & Iman – Learn Arabic with Episodes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
+    body { background: linear-gradient(145deg, #fff5e6, #ffe0b3); font-family: 'Comic Neue', 'Segoe UI', cursive, sans-serif; padding: 20px; min-height: 100vh; }
+    .container { max-width: 1000px; margin: 0 auto; text-align: center; }
+    
+    /* Header */
+    .header { background: white; border-radius: 60px; padding: 20px 15px; margin-bottom: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); border: 3px solid #ffb83d; }
+    h1 { font-size: 2.5rem; color: #a55310; text-shadow: 2px 2px 0 #ffd966; }
+    .subtitle { font-size: 1.2rem; color: #7a4a1a; }
+    
+    /* Episode selector */
+    .episode-bar { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 15px 0; }
+    .ep-btn { background: #f0e0c0; border: 2px solid #c2a15b; padding: 10px 18px; border-radius: 40px; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 1rem; }
+    .ep-btn.active { background: #ffaa33; color: white; border-color: #b4621a; box-shadow: 0 3px 0 #b4621a; }
+    .ep-btn:active { transform: translateY(2px); }
+    .ep-btn .star { color: gold; }
+    
+    /* Voice controls */
+    .voice-bar { margin: 15px 0; }
+    .btn-start, .btn-test { background: #ffaa33; border: none; font-size: 1.1rem; font-weight: bold; padding: 12px 24px; border-radius: 60px; cursor: pointer; margin: 5px; box-shadow: 0 4px 0 #b4621a; }
+    .btn-start:active, .btn-test:active { transform: translateY(3px); }
+    .btn-test { background: #66bb6a; box-shadow: 0 4px 0 #2e7d32; }
+    .status { background: #e7f0e6; padding: 8px 18px; border-radius: 40px; display: inline-block; margin: 8px; font-size: 0.9rem; font-weight: bold; }
+    .status.ready { background: #c8e6c9; color: #2e7d32; }
+    .status.error { background: #ffcdd2; color: #c62828; }
+    .status.info { background: #fff3c4; color: #795548; }
+    
+    /* Progress */
+    .progress { font-size: 1.1rem; margin: 10px 0; }
+    .stars { color: gold; font-size: 1.8rem; letter-spacing: 5px; }
+    
+    /* Alphabet grid */
+    .alphabet-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 165px)); gap: 20px; justify-content: center; margin-top: 20px; }
+    .letter-card { background: radial-gradient(circle at 10% 20%, #ffffff, #fff5e8); border-radius: 50px; padding: 25px 10px 18px; cursor: pointer; border: 4px solid #ffb83d; box-shadow: 0 15px 25px rgba(0,0,0,0.1); transition: all 0.15s ease; position: relative; }
+    .letter-card:hover { animation: shake 0.5s ease; border-color: #ff8c00; background: #fff8e7; }
+    .letter-card:active { animation: bounce 0.3s ease; background: #fff0dc; }
+    .letter-card.learned { border-color: #66bb6a; background: #e8f5e9; }
+    .letter-card.learned::after { content: "✅"; position: absolute; top: 8px; right: 12px; font-size: 1.2rem; }
+    .letter-card:not(.learned)::after { content: "✨"; position: absolute; top: 8px; right: 12px; font-size: 1.2rem; opacity: 0.3; transition: 0.3s; }
+    .letter-card:not(.learned):hover::after { opacity: 1; transform: rotate(20deg) scale(1.2); }
+    @keyframes shake { 0%,100% { transform: rotate(0deg); } 20% { transform: rotate(-4deg); } 40% { transform: rotate(4deg); } 60% { transform: rotate(-3deg); } 80% { transform: rotate(2deg); } }
+    @keyframes bounce { 0% { transform: scale(1); } 40% { transform: scale(0.92); } 70% { transform: scale(1.02); } 100% { transform: scale(1); } }
+    .arabic-letter { font-size: 4.5rem; font-family: 'Amiri', serif; font-weight: bold; color: #e65c00; text-shadow: 3px 3px 0 #ffcb77; }
+    .letter-name { font-size: 1.3rem; font-weight: 700; background: #ffa559; display: inline-block; padding: 5px 18px; border-radius: 40px; color: white; margin: 6px 0; }
+    .example { font-size: 0.85rem; background: #ffe1b3; padding: 5px 10px; border-radius: 30px; display: inline-block; color: #7b3f00; }
+    .tap-hint { margin-top: 8px; font-size: 0.7rem; color: #b5702c; }
+    
+    /* Review section */
+    .review-box { background: white; border-radius: 40px; padding: 20px; margin-top: 25px; border: 3px solid #ffb83d; }
+    .review-box h3 { color: #a55310; margin-bottom: 10px; }
+    .review-letters { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+    .review-letter { background: #f5e6c8; padding: 10px 18px; border-radius: 40px; font-size: 1.5rem; font-family: 'Amiri', serif; cursor: pointer; border: 2px solid #c2a15b; transition: 0.2s; }
+    .review-letter:hover { background: #ffd966; transform: scale(1.05); }
+    
+    footer { margin-top: 40px; padding: 15px; background: #f5e0c0; border-radius: 40px; color: #7a4a1a; }
+    @media (max-width: 550px) { .arabic-letter { font-size: 3.5rem; } .alphabet-grid { gap: 12px; } .letter-card { padding: 18px 6px; } h1 { font-size: 1.8rem; } .ep-btn { padding: 6px 12px; font-size: 0.85rem; } }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>📖 Noor & Iman 🎈</h1>
+    <div class="subtitle">✨ Learn Arabic letters episode by episode ✨</div>
+    
+    <!-- Episode selector -->
+    <div class="episode-bar" id="episodeBar"></div>
+    
+    <!-- Voice controls -->
+    <div class="voice-bar">
+      <button id="activateVoiceBtn" class="btn-start">🔊 1. START VOICE</button>
+      <button id="testVoiceBtn" class="btn-test">🎤 2. Test Voice</button>
+    </div>
+    <div id="voiceStatus" class="status">⏳ Tap START VOICE to enable sound</div>
+    
+    <!-- Progress -->
+    <div class="progress">
+      <span id="progressText">Episode 1: 0 / 4 letters learned</span>
+      <div class="stars" id="starDisplay">☆☆☆☆☆</div>
+    </div>
+  </div>
 
+  <!-- Letter grid -->
+  <div id="alphabetContainer" class="alphabet-grid"></div>
+
+  <!-- Review section -->
+  <div class="review-box" id="reviewBox">
+    <h3>🔁 Review all learned letters</h3>
+    <div class="review-letters" id="reviewLetters"></div>
+  </div>
+
+  <footer><p>🌸 Tap a letter to hear it. Learn 3-4 new letters each episode. Collect all 5 stars! 🌸</p></footer>
+</div>
+
+<script>
+  // ============================================================
+  // EPISODE DATA – 8 episodes, 3-4 letters each
+  // ============================================================
+  const episodes = [
+    { id: 1, title: "🐣 Alif, Baa, Taa", letters: ["ا", "ب", "ت", "ث"] },
+    { id: 2, title: "🦁 Jeem, Haa, Khaa", letters: ["ج", "ح", "خ"] },
+    { id: 3, title: "🐪 Daal, Thaal, Raa", letters: ["د", "ذ", "ر"] },
+    { id: 4, title: "🌸 Zay, Seen, Sheen", letters: ["ز", "س", "ش"] },
+    { id: 5, title: "🌙 Saad, Daad, Taa", letters: ["ص", "ض", "ط"] },
+    { id: 6, title: "👁️ Zah, Ayn, Ghayn", letters: ["ظ", "ع", "غ"] },
+    { id: 7, title: "🦋 Fa, Qaf, Kaf", letters: ["ف", "ق", "ك"] },
+    { id: 8, title: "🌃 Lam, Meem, Noon, Ha, Waw, Ya", letters: ["ل", "م", "ن", "ه", "و", "ي"] }
+  ];
+
+  // ============================================================
+  // FULL LETTER DATA (all 28)
+  // ============================================================
+  const allLetters = {
+    "ا": { name: "Alif", example: "Arnab (rabbit 🐇)", sound: "أَلِف" },
+    "ب": { name: "Baa", example: "Batta (duck 🦆)", sound: "باء" },
+    "ت": { name: "Taa", example: "Tuffaah (apple 🍎)", sound: "تاء" },
+    "ث": { name: "Thaa", example: "Thawr (bull 🐂)", sound: "ثاء" },
+    "ج": { name: "Jeem", example: "Jazar (carrot 🥕)", sound: "جيم" },
+    "ح": { name: "Haa", example: "Hisaan (horse 🐎)", sound: "حاء" },
+    "خ": { name: "Khaa", example: "Kharoof (sheep 🐑)", sound: "خاء" },
+    "د": { name: "Daal", example: "Dajaja (hen 🐔)", sound: "دال" },
+    "ذ": { name: "Thaal", example: "Dhanab (tail 🦊)", sound: "ذال" },
+    "ر": { name: "Raa", example: "Rim (gazelle 🦌)", sound: "راء" },
+    "ز": { name: "Zay", example: "Zahra (flower 🌸)", sound: "زاي" },
+    "س": { name: "Seen", example: "Samaka (fish 🐟)", sound: "سين" },
+    "ش": { name: "Sheen", example: "Shams (sun ☀️)", sound: "شين" },
+    "ص": { name: "Saad", example: "Sadiq (honest)", sound: "صاد" },
+    "ض": { name: "Daad", example: "Daw' (light)", sound: "ضاد" },
+    "ط": { name: "Taa (emphatic)", example: "Tayyib (good)", sound: "طاء" },
+    "ظ": { name: "Zah", example: "Zahr (flower)", sound: "ظاء" },
+    "ع": { name: "Ayn", example: "Ayn (eye 👁️)", sound: "عين" },
+    "غ": { name: "Ghayn", example: "Ghaab (forest 🌳)", sound: "غين" },
+    "ف": { name: "Fa", example: "Farasha (butterfly 🦋)", sound: "فاء" },
+    "ق": { name: "Qaf", example: "Qamar (moon 🌙)", sound: "قاف" },
+    "ك": { name: "Kaf", example: "Kitab (book 📖)", sound: "كاف" },
+    "ل": { name: "Lam", example: "Layl (night 🌃)", sound: "لام" },
+    "م": { name: "Meem", example: "Maa' (water 💧)", sound: "ميم" },
+    "ن": { name: "Noon", example: "Nahl (bee 🐝)", sound: "نون" },
+    "ه": { name: "Ha", example: "Hadiya (gift 🎁)", sound: "هاء" },
+    "و": { name: "Waw", example: "Ward (rose 🌹)", sound: "واو" },
+    "ي": { name: "Ya", example: "Yad (hand 🤚)", sound: "ياء" }
+  };
+
+  // ============================================================
+  // STATE
+  // ============================================================
+  let currentEpisode = 0;
+  let learnedLetters = {}; // { "ا": true, "ب": true, ... }
+  let starsEarned = 0;
+  let speechEnabled = false;
+  let selectedVoice = null;
+
+  // ============================================================
+  // VOICE SYSTEM – Fixed for Android
+  // ============================================================
+  function updateStatus(msg, type = 'info') {
+    const el = document.getElementById('voiceStatus');
+    el.textContent = msg;
+    el.className = 'status ' + type;
+  }
+
+  function forceLoadVoices() {
+    return new Promise((resolve) => {
+      if (!window.speechSynthesis) {
+        updateStatus("❌ Speech not supported", 'error');
+        resolve(false);
+        return;
+      }
+      let attempts = 0;
+      const maxAttempts = 20;
+      const check = () => {
+        const voices = speechSynthesis.getVoices();
+        attempts++;
+        if (voices && voices.length > 0) {
+          const arabic = voices.find(v => v.lang === 'ar-SA' || v.lang === 'ar-EG' || v.lang.startsWith('ar'));
+          selectedVoice = arabic || voices[0];
+          updateStatus(`✅ Voice ready: ${selectedVoice.name}`, 'ready');
+          resolve(true);
+          return;
+        }
+        if (attempts < maxAttempts) setTimeout(check, 200);
+        else {
+          updateStatus("❌ No voice loaded. Tap START again.", 'error');
+          resolve(false);
+        }
+      };
+      check();
+      speechSynthesis.addEventListener('voiceschanged', () => {
+        if (!selectedVoice) {
+          const voices = speechSynthesis.getVoices();
+          if (voices.length) {
+            selectedVoice = voices.find(v => v.lang.startsWith('ar')) || voices[0];
+            updateStatus(`✅ Voice ready: ${selectedVoice.name}`, 'ready');
+            resolve(true);
+          }
+        }
+      }, { once: true });
+    });
+  }
+
+  function speakWord(word) {
+    if (!speechEnabled) { alert("Tap 'START VOICE' first."); return; }
+    if (!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(word);
+    utterance.lang = "ar";
+    utterance.rate = 0.85;
+    utterance.pitch = 1.0;
+    if (selectedVoice) utterance.voice = selectedVoice;
+    setTimeout(() => window.speechSynthesis.speak(utterance), 50);
+  }
+
+  async function activateVoice() {
+    updateStatus("🔄 Loading voice...", 'info');
+    const success = await forceLoadVoices();
+    if (success) {
+      speechEnabled = true;
+      setTimeout(() => speakWord("أَلِف  باء  تاء"), 200);
+      updateStatus("✅ Voice active! Tap letters to hear.", 'ready');
+    }
+  }
+
+  function testVoice() {
+    if (!speechEnabled) { alert("Tap 'START VOICE' first."); return; }
+    speakWord("أَلِف  باء  تاء");
+  }
+
+  // ============================================================
+  // RENDER FUNCTIONS
+  // ============================================================
+  function renderEpisodeButtons() {
+    const bar = document.getElementById('episodeBar');
+    bar.innerHTML = episodes.map((ep, idx) => `
+      <button class="ep-btn ${idx === currentEpisode ? 'active' : ''}" data-idx="${idx}">
+        ${idx + 1}. ${ep.title}
+        <span class="star">${isEpisodeComplete(idx) ? '⭐' : ''}</span>
+      </button>
+    `).join('');
+    bar.querySelectorAll('.ep-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentEpisode = parseInt(btn.dataset.idx);
+        renderAll();
+      });
+    });
+  }
+
+  function isEpisodeComplete(epIdx) {
+    const ep = episodes[epIdx];
+    return ep.letters.every(l => learnedLetters[l]);
+  }
+
+  function countLearnedInEpisode(epIdx) {
+    const ep = episodes[epIdx];
+    return ep.letters.filter(l => learnedLetters[l]).length;
+  }
+
+  function renderLetters() {
+    const container = document.getElementById('alphabetContainer');
+    const ep = episodes[currentEpisode];
+    container.innerHTML = '';
+    ep.letters.forEach(letter => {
+      const data = allLetters[letter];
+      const isLearned = learnedLetters[letter] || false;
+      const card = document.createElement('div');
+      card.className = 'letter-card' + (isLearned ? ' learned' : '');
+      card.innerHTML = `
+        <div class="arabic-letter">${letter}</div>
+        <div class="letter-name">${data.name}</div>
+        <div class="example">🎈 ${data.example}</div>
+        <div class="tap-hint">🔊 tap to hear</div>
+      `;
+      card.addEventListener('click', () => {
+        speakWord(data.sound);
+        // Mark as learned after first tap
+        if (!learnedLetters[letter]) {
+          learnedLetters[letter] = true;
+          updateProgress();
+          renderAll();
+        }
+      });
+      container.appendChild(card);
+    });
+  }
+
+  function renderReview() {
+    const container = document.getElementById('reviewLetters');
+    const allLearned = Object.keys(learnedLetters);
+    if (allLearned.length === 0) {
+      container.innerHTML = '<span style="color:#b5702c;">Tap a letter above to start learning! 🌟</span>';
+      return;
+    }
+    container.innerHTML = allLearned.map(l => `
+      <span class="review-letter" data-letter="${l}">${l}</span>
+    `).join('');
+    container.querySelectorAll('.review-letter').forEach(el => {
+      el.addEventListener('click', () => {
+        const letter = el.dataset.letter;
+        speakWord(allLetters[letter].sound);
+      });
+    });
+  }
+
+  function updateProgress() {
+    const ep = episodes[currentEpisode];
+    const learned = countLearnedInEpisode(currentEpisode);
+    const total = ep.letters.length;
+    document.getElementById('progressText').textContent = 
+      `Episode ${currentEpisode+1}: ${learned} / ${total} letters learned`;
+    
+    // Update stars
+    const totalLearned = Object.keys(learnedLetters).length;
+    const totalLetters = 28;
+    const earned = Math.min(5, Math.floor((totalLearned / totalLetters) * 5));
+    document.getElementById('starDisplay').textContent = '⭐'.repeat(earned) + '☆'.repeat(5 - earned);
+    
+    // Update episode buttons
+    renderEpisodeButtons();
+  }
+
+  function renderAll() {
+    renderLetters();
+    renderReview();
+    updateProgress();
+    renderEpisodeButtons();
+  }
+
+  // ============================================================
+  // INIT
+  // ============================================================
+  window.addEventListener('DOMContentLoaded', () => {
+    // Voice
+    document.getElementById('activateVoiceBtn').addEventListener('click', activateVoice);
+    document.getElementById('testVoiceBtn').addEventListener('click', testVoice);
+    
+    // Pre-load voices
+    setTimeout(() => forceLoadVoices(), 300);
+    
+    // Render
+    renderAll();
+  });
+</script>
+</body>
+</html>
