@@ -3,17 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Arabic Alphabet for Kids (3+) – Tap to Hear</title>
+  <title>Noor & Iman – Learn Arabic Letters (Wolof + English)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      user-select: none; /* prevents text selection while tapping */
+      user-select: none;
     }
     body {
-      background: linear-gradient(145deg, #fff0da, #ffdfb3);
-      font-family: 'Segoe UI', 'Comic Neue', 'Roboto', sans-serif;
+      background: linear-gradient(145deg, #fff5e6, #ffe0b3);
+      font-family: 'Comic Neue', 'Segoe UI', cursive, sans-serif;
       padding: 20px;
       min-height: 100vh;
     }
@@ -22,48 +23,90 @@
       margin: 0 auto;
       text-align: center;
     }
-    /* Header area with voice starter button */
     .header {
       background: white;
       border-radius: 80px;
       padding: 20px 15px;
       margin-bottom: 30px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      border: 3px solid #ffb83d;
     }
     h1 {
-      font-size: 2.2rem;
+      font-size: 2.5rem;
       color: #a55310;
-      margin-bottom: 15px;
+      text-shadow: 2px 2px 0 #ffd966;
     }
-    .btn-start {
-      background: #ffaa33;
-      border: none;
-      font-size: 1.3rem;
+    .subtitle {
+      font-size: 1.2rem;
+      color: #7a4a1a;
+      margin-top: 5px;
+    }
+    /* Language selector */
+    .lang-bar {
+      margin: 15px 0;
+    }
+    .lang-btn {
+      background: #f0e0c0;
+      border: 2px solid #c2a15b;
+      padding: 8px 20px;
+      border-radius: 40px;
       font-weight: bold;
-      padding: 14px 32px;
-      border-radius: 60px;
       cursor: pointer;
-      box-shadow: 0 6px 0 #b4621a;
-      transition: 0.05s linear;
-      margin: 10px 0;
-      width: 90%;
-      max-width: 320px;
+      margin: 0 6px;
+      transition: 0.2s;
+      font-size: 1rem;
     }
-    .btn-start:active {
-      transform: translateY(3px);
+    .lang-btn.active {
+      background: #ffaa33;
+      color: white;
+      border-color: #b4621a;
       box-shadow: 0 3px 0 #b4621a;
     }
+    .lang-btn:active {
+      transform: translateY(2px);
+    }
+    .btn-start, .btn-test {
+      background: #ffaa33;
+      border: none;
+      font-size: 1.2rem;
+      font-weight: bold;
+      padding: 12px 24px;
+      border-radius: 60px;
+      cursor: pointer;
+      margin: 10px 5px;
+      display: inline-block;
+      box-shadow: 0 4px 0 #b4621a;
+      transition: 0.05s linear;
+    }
+    .btn-start:active, .btn-test:active {
+      transform: translateY(3px);
+    }
+    .btn-test {
+      background: #66bb6a;
+      box-shadow: 0 4px 0 #2e7d32;
+    }
+    .status {
+      background: #e7f0e6;
+      padding: 8px 18px;
+      border-radius: 40px;
+      display: inline-block;
+      margin: 10px;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+    .status.ready { background: #c8e6c9; color: #2e7d32; }
+    .status.error { background: #ffcdd2; color: #c62828; }
     .info {
       background: #fff0c0;
-      padding: 10px 15px;
-      border-radius: 50px;
-      font-size: 1rem;
+      padding: 8px 18px;
+      border-radius: 40px;
       display: inline-block;
+      margin: 8px 0;
     }
-    /* Grid of giant letter cards */
+    /* ====== GIANT ALPHABET GRID ====== */
     .alphabet-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 170px));
+      grid-template-columns: repeat(auto-fill, minmax(150px, 180px));
       gap: 25px;
       justify-content: center;
       margin-top: 20px;
@@ -71,28 +114,63 @@
     .letter-card {
       background: radial-gradient(circle at 10% 20%, #ffffff, #fff5e8);
       border-radius: 55px;
-      padding: 28px 10px 22px;
-      text-align: center;
+      padding: 28px 10px 20px;
       cursor: pointer;
-      transition: all 0.08s linear;
-      box-shadow: 0 18px 25px rgba(0,0,0,0.12);
       border: 4px solid #ffb83d;
+      box-shadow: 0 18px 25px rgba(0,0,0,0.1);
+      transition: all 0.15s ease;
+      position: relative;
+      overflow: hidden;
     }
+    /* Shake animation on hover */
+    .letter-card:hover {
+      animation: shake 0.5s ease;
+      border-color: #ff8c00;
+      background: #fff8e7;
+    }
+    /* Bounce on tap/click */
     .letter-card:active {
-      transform: scale(0.96);
+      animation: bounce 0.3s ease;
       background: #fff0dc;
+    }
+    @keyframes shake {
+      0%, 100% { transform: rotate(0deg); }
+      20% { transform: rotate(-4deg); }
+      40% { transform: rotate(4deg); }
+      60% { transform: rotate(-3deg); }
+      80% { transform: rotate(2deg); }
+    }
+    @keyframes bounce {
+      0% { transform: scale(1); }
+      40% { transform: scale(0.92); }
+      70% { transform: scale(1.02); }
+      100% { transform: scale(1); }
+    }
+    /* Floating sparkle inside cards (extra fun) */
+    .letter-card::after {
+      content: "✨";
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-size: 1.2rem;
+      opacity: 0.3;
+      transition: 0.3s;
+    }
+    .letter-card:hover::after {
+      opacity: 1;
+      transform: rotate(20deg) scale(1.2);
     }
     .arabic-letter {
       font-size: 5rem;
-      font-family: 'Amiri', 'Traditional Arabic', 'Noto Naskh Arabic', serif;
+      font-family: 'Amiri', 'Traditional Arabic', serif;
       font-weight: bold;
       color: #e65c00;
       text-shadow: 3px 3px 0 #ffcb77;
-      margin-bottom: 10px;
+      margin-bottom: 6px;
     }
     .letter-name {
       font-size: 1.5rem;
-      font-weight: 800;
+      font-weight: 700;
       background: #ffa559;
       display: inline-block;
       padding: 6px 20px;
@@ -105,138 +183,232 @@
       background: #ffe1b3;
       padding: 6px 12px;
       border-radius: 30px;
-      color: #9b4e0e;
-      margin-top: 8px;
+      display: inline-block;
+      color: #7b3f00;
+    }
+    .tap-hint {
+      margin-top: 10px;
+      font-size: 0.75rem;
+      color: #b5702c;
     }
     footer {
-      margin-top: 45px;
-      color: #b5702c;
-      font-size: 0.8rem;
+      margin-top: 50px;
+      padding: 20px;
+      background: #f5e0c0;
+      border-radius: 60px;
+      color: #7a4a1a;
     }
     @media (max-width: 550px) {
       .arabic-letter { font-size: 3.8rem; }
       .letter-name { font-size: 1.2rem; }
       .alphabet-grid { gap: 15px; }
       .letter-card { padding: 20px 8px; }
+      h1 { font-size: 1.8rem; }
     }
   </style>
 </head>
 <body>
 <div class="container">
   <div class="header">
-    <h1>📖 أ ب ت – Arabic Alphabet (Age 3+) 🎈</h1>
-    <button id="activateVoiceBtn" class="btn-start">🔊 START VOICE (Tap first) 🔊</button>
-    <div class="info">⭐ After tapping START, every big letter will speak when you tap it! ⭐</div>
+    <h1>📖 أ ب ت – Arabic Alphabet 🎈</h1>
+    <div class="subtitle">✨ Learn with fun & clear voice ✨</div>
+
+    <!-- Language Selector -->
+    <div class="lang-bar">
+      <button class="lang-btn active" data-lang="en">🇬🇧 English</button>
+      <button class="lang-btn" data-lang="wo">🇸🇳 Wolof</button>
+    </div>
+
+    <button id="activateVoiceBtn" class="btn-start">🔊 1. START VOICE (Tap first) 🔊</button>
+    <button id="testVoiceBtn" class="btn-test">🎤 2. Test Voice</button>
+    <div id="voiceStatus" class="status">⏳ Initialising voice...</div>
+    <div class="info">⭐ After START + TEST work, tap any big letter to hear it speak! ⭐</div>
   </div>
 
   <div id="alphabetContainer" class="alphabet-grid"></div>
 
   <footer>
-    <p>🌸 Tap any letter – clear Arabic pronunciation. Designed for little learners on Android. 🌸</p>
+    <p>🌸 Tap any letter – clear Arabic pronunciation. Wolof translation included. <br> If voice fails, install "Google Text-to-Speech" from Play Store.</p>
   </footer>
 </div>
 
 <script>
-  // ========== ALL 28 ARABIC LETTERS (Alif to Yaa) ==========
-  const letters = [
-    { letter: "ا", name: "Alif", example: "Arnab (rabbit 🐇)", sound: "أَلِف" },
-    { letter: "ب", name: "Baa", example: "Batta (duck 🦆)", sound: "باء" },
-    { letter: "ت", name: "Taa", example: "Tuffaah (apple 🍎)", sound: "تاء" },
-    { letter: "ث", name: "Thaa", example: "Thawr (bull 🐂)", sound: "ثاء" },
-    { letter: "ج", name: "Jeem", example: "Jazar (carrot 🥕)", sound: "جيم" },
-    { letter: "ح", name: "Haa", example: "Hisaan (horse 🐎)", sound: "حاء" },
-    { letter: "خ", name: "Khaa", example: "Kharoof (sheep 🐑)", sound: "خاء" },
-    { letter: "د", name: "Daal", example: "Dajaja (hen 🐔)", sound: "دال" },
-    { letter: "ذ", name: "Thaal", example: "Dhanab (tail 🦊)", sound: "ذال" },
-    { letter: "ر", name: "Raa", example: "Rim (gazelle 🦌)", sound: "راء" },
-    { letter: "ز", name: "Zay", example: "Zahra (flower 🌸)", sound: "زاي" },
-    { letter: "س", name: "Seen", example: "Samaka (fish 🐟)", sound: "سين" },
-    { letter: "ش", name: "Sheen", example: "Shams (sun ☀️)", sound: "شين" },
-    { letter: "ص", name: "Saad", example: "Sadiq (honest)", sound: "صاد" },
-    { letter: "ض", name: "Daad", example: "Daw' (light)", sound: "ضاد" },
-    { letter: "ط", name: "Taa", example: "Tayyib (good)", sound: "طاء" },
-    { letter: "ظ", name: "Zah", example: "Zahr (flower)", sound: "ظاء" },
-    { letter: "ع", name: "Ayn", example: "Ayn (eye 👁️)", sound: "عين" },
-    { letter: "غ", name: "Ghayn", example: "Ghaab (forest 🌳)", sound: "غين" },
-    { letter: "ف", name: "Fa", example: "Farasha (butterfly 🦋)", sound: "فاء" },
-    { letter: "ق", name: "Qaf", example: "Qamar (moon 🌙)", sound: "قاف" },
-    { letter: "ك", name: "Kaf", example: "Kitab (book 📖)", sound: "كاف" },
-    { letter: "ل", name: "Lam", example: "Layl (night 🌃)", sound: "لام" },
-    { letter: "م", name: "Meem", example: "Maa' (water 💧)", sound: "ميم" },
-    { letter: "ن", name: "Noon", example: "Nahl (bee 🐝)", sound: "نون" },
-    { letter: "ه", name: "Ha", example: "Hadiya (gift 🎁)", sound: "هاء" },
-    { letter: "و", name: "Waw", example: "Ward (rose 🌹)", sound: "واو" },
-    { letter: "ي", name: "Ya", example: "Yad (hand 🤚)", sound: "ياء" }
-  ];
+  // ============================================================
+  // MULTILINGUAL DATA: English + Wolof
+  // ============================================================
+  const langData = {
+    en: {
+      letters: [
+        { letter: "ا", name: "Alif", example: "Arnab (rabbit 🐇)", sound: "أَلِف" },
+        { letter: "ب", name: "Baa", example: "Batta (duck 🦆)", sound: "باء" },
+        { letter: "ت", name: "Taa", example: "Tuffaah (apple 🍎)", sound: "تاء" },
+        { letter: "ث", name: "Thaa", example: "Thawr (bull 🐂)", sound: "ثاء" },
+        { letter: "ج", name: "Jeem", example: "Jazar (carrot 🥕)", sound: "جيم" },
+        { letter: "ح", name: "Haa", example: "Hisaan (horse 🐎)", sound: "حاء" },
+        { letter: "خ", name: "Khaa", example: "Kharoof (sheep 🐑)", sound: "خاء" },
+        { letter: "د", name: "Daal", example: "Dajaja (hen 🐔)", sound: "دال" },
+        { letter: "ذ", name: "Thaal", example: "Dhanab (tail 🦊)", sound: "ذال" },
+        { letter: "ر", name: "Raa", example: "Rim (gazelle 🦌)", sound: "راء" },
+        { letter: "ز", name: "Zay", example: "Zahra (flower 🌸)", sound: "زاي" },
+        { letter: "س", name: "Seen", example: "Samaka (fish 🐟)", sound: "سين" },
+        { letter: "ش", name: "Sheen", example: "Shams (sun ☀️)", sound: "شين" },
+        { letter: "ص", name: "Saad", example: "Sadiq (honest)", sound: "صاد" },
+        { letter: "ض", name: "Daad", example: "Daw' (light)", sound: "ضاد" },
+        { letter: "ط", name: "Taa (emphatic)", example: "Tayyib (good)", sound: "طاء" },
+        { letter: "ظ", name: "Zah", example: "Zahr (flower)", sound: "ظاء" },
+        { letter: "ع", name: "Ayn", example: "Ayn (eye 👁️)", sound: "عين" },
+        { letter: "غ", name: "Ghayn", example: "Ghaab (forest 🌳)", sound: "غين" },
+        { letter: "ف", name: "Fa", example: "Farasha (butterfly 🦋)", sound: "فاء" },
+        { letter: "ق", name: "Qaf", example: "Qamar (moon 🌙)", sound: "قاف" },
+        { letter: "ك", name: "Kaf", example: "Kitab (book 📖)", sound: "كاف" },
+        { letter: "ل", name: "Lam", example: "Layl (night 🌃)", sound: "لام" },
+        { letter: "م", name: "Meem", example: "Maa' (water 💧)", sound: "ميم" },
+        { letter: "ن", name: "Noon", example: "Nahl (bee 🐝)", sound: "نون" },
+        { letter: "ه", name: "Ha", example: "Hadiya (gift 🎁)", sound: "هاء" },
+        { letter: "و", name: "Waw", example: "Ward (rose 🌹)", sound: "واو" },
+        { letter: "ي", name: "Ya", example: "Yad (hand 🤚)", sound: "ياء" }
+      ]
+    },
+    wo: {
+      letters: [
+        { letter: "ا", name: "Alif", example: "Arnab (njombóot 🐇)", sound: "أَلِف" },
+        { letter: "ب", name: "Baa", example: "Batta (xànxet 🦆)", sound: "باء" },
+        { letter: "ت", name: "Taa", example: "Tuffaah (pomme 🍎)", sound: "تاء" },
+        { letter: "ث", name: "Thaa", example: "Thawr (yéef 🐂)", sound: "ثاء" },
+        { letter: "ج", name: "Jeem", example: "Jazar (karoot 🥕)", sound: "جيم" },
+        { letter: "ح", name: "Haa", example: "Hisaan (fas 🐎)", sound: "حاء" },
+        { letter: "خ", name: "Khaa", example: "Kharoof (xar 🐑)", sound: "خاء" },
+        { letter: "د", name: "Daal", example: "Dajaja (ginaar 🐔)", sound: "دال" },
+        { letter: "ذ", name: "Thaal", example: "Dhanab (weex 🦊)", sound: "ذال" },
+        { letter: "ر", name: "Raa", example: "Rim (séeréng 🦌)", sound: "راء" },
+        { letter: "ز", name: "Zay", example: "Zahra (tòortóor 🌸)", sound: "زاي" },
+        { letter: "س", name: "Seen", example: "Samaka (jull 🐟)", sound: "سين" },
+        { letter: "ش", name: "Sheen", example: "Shams (jant ☀️)", sound: "شين" },
+        { letter: "ص", name: "Saad", example: "Sadiq (diggante)", sound: "صاد" },
+        { letter: "ض", name: "Daad", example: "Daw' (leeral)", sound: "ضاد" },
+        { letter: "ط", name: "Taa", example: "Tayyib (baax)", sound: "طاء" },
+        { letter: "ظ", name: "Zah", example: "Zahr (tòortóor)", sound: "ظاء" },
+        { letter: "ع", name: "Ayn", example: "Ayn (bët 👁️)", sound: "عين" },
+        { letter: "غ", name: "Ghayn", example: "Ghaab (xayma 🌳)", sound: "غين" },
+        { letter: "ف", name: "Fa", example: "Farasha (lëpp-lëpp 🦋)", sound: "فاء" },
+        { letter: "ق", name: "Qaf", example: "Qamar (weer 🌙)", sound: "قاف" },
+        { letter: "ك", name: "Kaf", example: "Kitab (tééré 📖)", sound: "كاف" },
+        { letter: "ل", name: "Lam", example: "Layl (gudd 🌃)", sound: "لام" },
+        { letter: "م", name: "Meem", example: "Maa' (ndox 💧)", sound: "ميم" },
+        { letter: "ن", name: "Noon", example: "Nahl (xam-xam 🐝)", sound: "نون" },
+        { letter: "ه", name: "Ha", example: "Hadiya (cadeau 🎁)", sound: "هاء" },
+        { letter: "و", name: "Waw", example: "Ward (tòortóor gi 🌹)", sound: "واو" },
+        { letter: "ي", name: "Ya", example: "Yad (loxo 🤚)", sound: "ياء" }
+      ]
+    }
+  };
 
-  // ---------- SPEECH SETUP (Android optimized) ----------
+  // ============================================================
+  // VOICE MANAGEMENT (Improved for human-like Arabic)
+  // ============================================================
   let speechEnabled = false;
-  let arabicVoice = null;
+  let selectedVoice = null;
+  let currentLang = 'en';
+  let voiceLoadAttempts = 0;
 
-  // Function to load available voices and pick Arabic
+  const statusDiv = document.getElementById('voiceStatus');
+
+  function updateStatus(message, isError = false) {
+    statusDiv.textContent = message;
+    statusDiv.className = 'status' + (isError ? ' error' : ' ready');
+  }
+
+  // Load Arabic voice with retry
   function loadArabicVoice() {
     return new Promise((resolve) => {
       if (!window.speechSynthesis) {
-        console.warn("Speech not supported");
+        updateStatus("❌ Browser doesn't support speech. Use Chrome or Edge.", true);
         resolve(false);
         return;
       }
-      const getVoices = () => {
+      const tryLoad = () => {
         const voices = speechSynthesis.getVoices();
-        let preferred = voices.find(v => v.lang === 'ar-SA' || v.lang === 'ar-EG' || v.lang === 'ar');
-        if (!preferred) preferred = voices.find(v => v.lang.includes('ar'));
-        if (preferred) {
-          arabicVoice = preferred;
-          console.log("Arabic voice found:", preferred.name);
+        // Prefer high-quality Arabic voices
+        let arabicVoice = voices.find(v => v.lang === 'ar-SA' || v.lang === 'ar-EG');
+        if (!arabicVoice) arabicVoice = voices.find(v => v.lang.startsWith('ar'));
+        if (arabicVoice) {
+          selectedVoice = arabicVoice;
+          updateStatus(`✅ Voice ready: ${arabicVoice.name} (${arabicVoice.lang})`);
           resolve(true);
         } else if (voices.length > 0) {
-          // fallback to any voice, but still try Arabic later
-          arabicVoice = null;
+          // Fallback to any voice
+          selectedVoice = voices[0];
+          updateStatus(`⚠️ Using ${selectedVoice.name}. For best Arabic, install Google TTS.`, false);
           resolve(true);
         } else {
-          // voices not loaded yet, retry
-          setTimeout(getVoices, 150);
+          voiceLoadAttempts++;
+          if (voiceLoadAttempts < 10) {
+            setTimeout(tryLoad, 300);
+          } else {
+            updateStatus("❌ No voice loaded. Check TTS settings.", true);
+            resolve(false);
+          }
         }
       };
       if (speechSynthesis.getVoices().length) {
-        getVoices();
+        tryLoad();
       } else {
-        speechSynthesis.addEventListener('voiceschanged', getVoices, { once: true });
-        setTimeout(getVoices, 200);
+        speechSynthesis.addEventListener('voiceschanged', tryLoad, { once: true });
+        setTimeout(tryLoad, 500);
       }
     });
   }
 
-  // Speak a word (Arabic)
-  function speak(word) {
+  // Speak with human-like settings
+  function speakWord(word) {
     if (!speechEnabled) {
-      // If user hasn't clicked the start button yet, remind them
-      alert("Please tap the 'START VOICE' button first to enable sound.");
+      alert("⚠️ Please tap 'START VOICE' button first.");
       return;
     }
     if (!window.speechSynthesis) {
-      alert("Your browser does not support speech. Please use Chrome on Android.");
+      alert("Speech not supported.");
       return;
     }
-    // Cancel any ongoing speech to avoid overlapping
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(word);
     utterance.lang = "ar";
-    utterance.rate = 0.85;
+    utterance.rate = 0.85;      // slightly slower for clarity
     utterance.pitch = 1.0;
-    if (arabicVoice) utterance.voice = arabicVoice;
-    // Slight delay to ensure cancel is processed
-    setTimeout(() => {
-      window.speechSynthesis.speak(utterance);
-    }, 50);
+    utterance.volume = 1.0;
+    if (selectedVoice) utterance.voice = selectedVoice;
+    setTimeout(() => window.speechSynthesis.speak(utterance), 50);
   }
 
-  // Render all letter cards
+  // Activate voice (user gesture)
+  async function activateVoice() {
+    updateStatus("Loading voice engine...");
+    const success = await loadArabicVoice();
+    if (success) {
+      speechEnabled = true;
+      speakWord("أَلِف  باء  تاء");
+      updateStatus("✅ Voice ACTIVE! Test spoken. Now tap letters.");
+    } else {
+      updateStatus("❌ Voice failed. Install Google TTS from Play Store.", true);
+    }
+  }
+
+  function testVoice() {
+    if (!speechEnabled) {
+      alert("Tap 'START VOICE' first.");
+      return;
+    }
+    speakWord("أَلِف  باء  تاء");
+  }
+
+  // ============================================================
+  // RENDER LETTERS (with current language)
+  // ============================================================
   function renderCards() {
     const container = document.getElementById('alphabetContainer');
     if (!container) return;
+    const data = langData[currentLang] || langData.en;
     container.innerHTML = '';
-    letters.forEach(l => {
+    data.letters.forEach(l => {
       const card = document.createElement('div');
       card.className = 'letter-card';
       card.setAttribute('data-sound', l.sound);
@@ -244,44 +416,44 @@
         <div class="arabic-letter">${l.letter}</div>
         <div class="letter-name">${l.name}</div>
         <div class="example">🎈 ${l.example}</div>
-        <div style="margin-top: 12px; font-size: 0.75rem; opacity:0.7;"><i class="fas fa-volume-up"></i> tap to hear</div>
+        <div class="tap-hint">🔊 tap to hear</div>
       `;
       card.addEventListener('click', (e) => {
         e.stopPropagation();
-        // Visual feedback
-        card.style.transform = 'scale(0.96)';
-        setTimeout(() => { card.style.transform = ''; }, 130);
-        const soundWord = card.getAttribute('data-sound');
-        speak(soundWord);
+        const sound = card.getAttribute('data-sound');
+        speakWord(sound);
       });
       container.appendChild(card);
     });
   }
 
-  // Activate voice on button click (required for Android to allow speech)
-  async function activateVoice() {
-    await loadArabicVoice();
-    speechEnabled = true;
-    // Play a test sound: "Alif Baa Taa"
-    speak("أَلِف  باء  تاء");
-    const btn = document.getElementById('activateVoiceBtn');
-    btn.innerHTML = "✅ VOICE ACTIVE! Now tap any letter ✅";
-    setTimeout(() => {
-      btn.innerHTML = "🔊 START VOICE (Tap first) 🔊";
-    }, 3000);
-    alert("Voice is ready! Now tap any big letter to hear it speak.");
+  // ============================================================
+  // LANGUAGE SWITCHER
+  // ============================================================
+  function setLanguage(lang) {
+    currentLang = lang;
+    renderCards();
+    // Update active button style
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
   }
 
-  // Initialize page
+  // ============================================================
+  // INITIALISE
+  // ============================================================
   window.addEventListener('DOMContentLoaded', () => {
     renderCards();
-    // Preload voices silently (doesn't enable speech yet, just prepares)
-    loadArabicVoice();
-    // Attach click listener to the start button
-    const startBtn = document.getElementById('activateVoiceBtn');
-    if (startBtn) {
-      startBtn.addEventListener('click', activateVoice);
-    }
+    loadArabicVoice(); // preload
+
+    // Voice buttons
+    document.getElementById('activateVoiceBtn').addEventListener('click', activateVoice);
+    document.getElementById('testVoiceBtn').addEventListener('click', testVoice);
+
+    // Language buttons
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+    });
   });
 </script>
 </body>
