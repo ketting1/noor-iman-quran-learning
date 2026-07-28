@@ -3,3 +3,10 @@ function startLesson() {
 }
 funcl
 }
+function playLetter(letter) {
+
+    const audio = new Audio("sounds/letters/" + letter + ".mp3");
+
+    audio.play();
+
+}
