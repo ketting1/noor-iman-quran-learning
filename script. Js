@@ -1,8 +1,9 @@
+alert("script.js is working!");
 function startLesson() {
     window.location.href = "lessons/alphabet.html";
 
 }
-alert("script.js loaded!");
+
 
 
 function startLearning() {
