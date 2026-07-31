@@ -1,15 +1,7 @@
 function startLesson() {
     window.location.href = "lessons/alphabet.html";
 }
-funcl
-}
-function playLetter(letter) {
 
-    const audio = new Audio("sounds/letters/" + letter + ".mp3");
-
-    audio.play();
-
-}
 function startLearning() {
     window.location.href = "lessons/alphabet.html";
 }
@@ -19,5 +11,6 @@ function playLetter(letter) {
 
     audio.play().catch(function(error) {
         console.log("Error playing audio:", error);
+        alert("Could not play: " + letter + ".mp3");
     });
 }
